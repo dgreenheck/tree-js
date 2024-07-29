@@ -54,8 +54,8 @@ const TreeParams = {
   },
 
   geometry: {
-    sections: 10,             // Number of sections that make up this branch 
-    segments: 12,           // Number of faces around the circumference of the branch
+    sections: 8,           // Number of sections that make up this branch 
+    segments: 8,           // Number of faces around the circumference of the branch
     lengthVariance: 0.1,   // % variance in the nominal section length
     radiusVariance: 0.1,   // % variance in the nominal section radius
     randomization: 0.1,    // Randomization factor applied to vertices
@@ -235,22 +235,9 @@ export class Tree extends THREE.Group {
       for (let j = 0; j < this.params.geometry.segments; j++) {
         let angle = (2.0 * Math.PI * j) / this.params.geometry.segments;
 
-        // Randomize the vertices a bit to make the triangles more irregular
-        // Don't modify the vertices in the last section or the final child branch won't line up
-        if (i > 0 && i < this.params.geometry.sections) {
-          angle += rng.random(this.params.geometry.randomization, -this.params.geometry.randomization);
-        }
-
-        // Vary the section radius by a random amount to give some variance in the tree diameter
-        // Don't modify the vertices in the last section or the final child branch won't line up
-        let segmentRadius = sectionRadius;
-        if (i > 0 && i < this.params.geometry.sections) {
-          segmentRadius *= (1 + rng.random(this.params.geometry.radiusVariance, -this.params.geometry.radiusVariance));
-        }
-
         // Create the segment vertex
         const vertex = new THREE.Vector3(Math.cos(angle), 0, Math.sin(angle))
-          .multiplyScalar(segmentRadius)
+          .multiplyScalar(sectionRadius)
           .applyEuler(sectionOrientation)
           .add(sectionOrigin);
 
@@ -284,8 +271,7 @@ export class Tree extends THREE.Group {
       });
 
       // Move to origin to the next section's origin
-      let sectionLength = (length / this.params.geometry.sections) *
-        (1 + rng.random(this.params.geometry.lengthVariance, -this.params.geometry.lengthVariance));
+      let sectionLength = (length / this.params.geometry.sections);
 
       sectionOrigin.add(new THREE.Vector3(0, sectionLength, 0).applyEuler(sectionOrientation));
 
@@ -300,7 +286,7 @@ export class Tree extends THREE.Group {
       const qTwist = new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(0, 1, 0), this.params.branch.twist);
       const qForce = new THREE.Quaternion().setFromUnitVectors(new THREE.Vector3(0, 1, 0), this.params.branch.force.direction);
       qSection.multiply(qTwist);
-      qSection.rotateTowards(qForce, this.params.branch.force.strength / sectionRadius);
+      qSection.rotateTowards(qForce, this.params.branch.force.strength / Math.sqrt(sectionRadius));
       sectionOrientation.setFromQuaternion(qSection);
     }
 

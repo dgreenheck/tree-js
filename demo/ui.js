@@ -29,7 +29,7 @@ export function setupUI(tree, renderer, scene, camera, bloomPass) {
   forceFolder.add(tree.params.branch.force, 'strength', -0.1, 0.1).name('Strength');
 
   branchFolder.add(tree.params.branch, 'levels', 1, 4, 1).name('Levels');
-  branchFolder.add(tree.params.branch, 'children', 1, 5, 1).name('Child Count');
+  branchFolder.add(tree.params.branch, 'children', 1, 10, 1).name('Child Count');
   branchFolder.add(tree.params.branch, 'start', 0, 1).name('Start');
   branchFolder.add(tree.params.branch, 'stop', 0, 1).name('Stop');
   branchFolder.add(tree.params.branch, 'angle', 0, Math.PI).name('Angle');
@@ -43,10 +43,7 @@ export function setupUI(tree, renderer, scene, camera, bloomPass) {
 
   const geometryFolder = gui.addFolder('Geometry').close();
   geometryFolder.add(tree.params.geometry, 'sections', 1, 20, 1).name('Section Count');
-  geometryFolder.add(tree.params.geometry, 'lengthVariance', 0, 1).name('Section Length Variance');
-  geometryFolder.add(tree.params.geometry, 'radiusVariance', 0, 1).name('Section Radius Variance');
   geometryFolder.add(tree.params.geometry, 'segments', 3, 32, 1).name('Radial Segment Count');
-  geometryFolder.add(tree.params.geometry, 'randomization', 0, 0.5).name('Vertex Randomization');
 
   const leavesFolder = gui.addFolder('Leaves').close();
   leavesFolder.add(tree.params.leaves, 'style', LeafStyle).name('Style');
