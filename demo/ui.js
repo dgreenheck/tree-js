@@ -34,11 +34,11 @@ export function setupUI(tree, renderer, scene, camera, bloomPass) {
   branchFolder.add(tree.params.branch, 'stop', 0, 1).name('Stop');
   branchFolder.add(tree.params.branch, 'angle', 0, Math.PI).name('Angle');
   branchFolder.add(tree.params.branch, 'angleVariance', 0, Math.PI).name('Angle Variance');
-  branchFolder.add(tree.params.branch, 'lengthVariance', 0, 1).name('Length Variance');
+  branchFolder.add(tree.params.branch, 'lengthVariance', 0, 10).name('Length Variance');
   branchFolder.add(tree.params.branch, 'lengthMultiplier', 0, 1).name('Length Multiplier');
   branchFolder.add(tree.params.branch, 'radiusMultiplier', 0, 1).name('Radius Multiplier');
   branchFolder.add(tree.params.branch, 'taper', 0.5, 1).name('Taper');
-  branchFolder.add(tree.params.branch, 'gnarliness', 0, 0.5).name('Gnarliness (1)');
+  branchFolder.add(tree.params.branch, 'gnarliness', -0.5, 0.5).name('Gnarliness (1)');
   branchFolder.add(tree.params.branch, 'twist', -0.25, 0.25, 0.01).name('Twist Strength');
 
   const geometryFolder = gui.addFolder('Geometry').close();

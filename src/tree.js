@@ -34,7 +34,7 @@ const TreeParams = {
 
   branch: {
     levels: 4,               // Number of branch recursions ( Keep under 5 )
-    children: 3,             // Number of child branches at each level
+    children: 5,             // Number of child branches at each level
     start: .6,               // Defines where child branches start forming on the parent branch. A value of 0.6 means the
     // child branches can start forming 60% of the way up the parent branch
     stop: .95,               // Defines where child branches stop forming on the parent branch. A value of 0.9 means the
@@ -388,8 +388,8 @@ export class Tree extends THREE.Group {
         childBranchRadius *= this.params.branch.radiusMultiplier
       }
 
-      let childBranchLength = parentLength * (this.params.branch.lengthMultiplier +
-        rng.random(this.params.branch.lengthVariance, -this.params.branch.lengthVariance));
+      let childBranchLength = parentLength * this.params.branch.lengthMultiplier +
+        rng.random(0, -this.params.branch.lengthVariance);
 
       if (level === this.params.branch.levels) {
         this.#generateLeaf(
